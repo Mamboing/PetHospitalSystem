@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -100,5 +102,29 @@ public class FileController {
         fileService.deleteFile(path);
         String msg = "delete success";
         return new MessageBean<>(MessageCodeEnum.OK, msg);
+    }
+
+    @PostMapping("/transformType")
+    public MessageBean<?> changeFileType(@RequestPart MultipartFile file, @RequestParam String targetType){
+        if(!FileUploadUtil.isImage(file)) return new MessageBean<>(MessageCodeEnum.NO, "不是图片文件");
+        if(!targetType.equals("bmp") && !targetType.equals("jpg") && !targetType.equals("jpeg") && !targetType.equals("png"))
+            return new MessageBean<>(MessageCodeEnum.NO, "无法转换为该格式");
+        MessageBean<?> messageBean = saveNewFile(file);
+        if(!messageBean.getMsg().equals("上传成功")) return messageBean;
+        JSONObject jsonObject = (JSONObject) messageBean.getData();
+        String url = (String) jsonObject.get("path");
+        try{
+            BufferedImage bi = ImageIO.read(new File(url));
+            String newPath = url.substring(0, url.lastIndexOf(".")) + "." + targetType;
+            ImageIO.write(bi, targetType, new File(newPath));
+
+            fileService.changeFilePath(url, newPath);
+            MessageBean<?> mb = deleteFile(url);
+            if(mb.getCode() != MessageCodeEnum.OK.getCode()) return mb;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return new MessageBean<>(MessageCodeEnum.OK, "转换成功");
     }
 }

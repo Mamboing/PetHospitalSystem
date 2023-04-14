@@ -34,4 +34,9 @@ public class FileServiceImpl implements FileService {
     public HospitalFile selectFileByPath(String path) {
         return fileMapper.selectFileByPath(path);
     }
+
+    @Override
+    public void changeFilePath(String oldPath, String newPath) {
+        fileMapper.updatePath(oldPath, newPath);
+    }
 }

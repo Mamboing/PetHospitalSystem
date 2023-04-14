@@ -19,4 +19,7 @@ public interface FileMapper {
 
     @Update("update tb_file set size = #{size} where path = #{path}")
     void updateFile(String path, int size);
+
+    @Update("update tb_file set path = #{newPath} where path = #{oldPath}")
+    void updatePath(String oldPath, String newPath);
 }
