@@ -19,7 +19,7 @@ public interface PatientMapper{
     @Select("SELECT count(*) FROM tb_patient")
     int selectPatientCount();
 
-    @Delete("DELETE FROM tb_patient WHERE question_id = #{questionId}")
+    @Delete("DELETE FROM tb_patient WHERE patient_id = #{patientId}")
     void deletePatientById(int id);
 
     @Select("SELECT * FROM tb_patient WHERE name LIKE CONCAT('%',#{name},'%')")
