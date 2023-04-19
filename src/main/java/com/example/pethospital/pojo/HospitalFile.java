@@ -12,12 +12,10 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 public class HospitalFile {
     private int fileId;
-    @NotBlank
     private String path;
-    @NotBlank
     private String originName;
-    @NotBlank
     private Timestamp time;
-    @NotBlank
     private int size;
+    private int patientId;
+    private String formType;
 }

@@ -21,6 +21,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/file")
 @Slf4j
 public class FileController {
@@ -28,7 +29,7 @@ public class FileController {
     FileService fileService;
 
     @PostMapping("/upload")
-    public MessageBean<?> saveNewFile(@RequestPart(value = "file", required = false) MultipartFile file){
+    public MessageBean<?> saveNewFile(@RequestPart(value = "file", required = false) MultipartFile file, @RequestParam int patientId, @RequestParam String formType){
         JSONObject data = new JSONObject();
         try{
             FileUploadUtil.assertAllowed(file);
@@ -57,7 +58,7 @@ public class FileController {
             Timestamp timestamp = new Timestamp(date.getTime());
             file.transferTo(newFile);
 
-            int ok = fileService.saveFile(filePath, file.getOriginalFilename(), timestamp, (int)file.getSize());
+            int ok = fileService.saveFile(filePath, file.getOriginalFilename(), timestamp, (int)file.getSize(), patientId, formType);
             if(ok == 1){
                 String msg = "上传成功";
                 data.put("path", filePath);
@@ -76,11 +77,11 @@ public class FileController {
     }
 
     @PostMapping("/uploadMulti")
-    public MessageBean<?>[] saveNewFiles(@RequestPart MultipartFile[] files){
+    public MessageBean<?>[] saveNewFiles(@RequestPart MultipartFile[] files, @RequestParam int patientId, @RequestParam String formType){
         MessageBean<?>[] res = new MessageBean[files.length];
         for(int i=0; i<files.length; i++){
             MultipartFile file = files[i];
-            res[i] = saveNewFile(file);
+            res[i] = saveNewFile(file, patientId, formType);
         }
         return res;
     }
@@ -104,12 +105,64 @@ public class FileController {
         return new MessageBean<>(MessageCodeEnum.OK, msg);
     }
 
+    @PostMapping("/update")
+    public MessageBean<?> updateFile(@RequestPart MultipartFile file, @RequestParam String path){
+        HospitalFile hf = fileService.selectFileByPath(path);
+        if(FileUploadUtil.isImage(file)){
+            if(!FileUploadUtil.isImage(hf.getPath())){
+                return new MessageBean<>(MessageCodeEnum.NO, "请不要输入图片");
+            }
+        }
+        else if(FileUploadUtil.isVideo(file)){
+            if(!FileUploadUtil.isVideo(hf.getPath())){
+                return new MessageBean<>(MessageCodeEnum.NO, "请不要输入视频");
+            }
+        }
+        else{
+            return new MessageBean<>(MessageCodeEnum.NO, "请不要输入非图片和视频");
+        }
+        int patientId = hf.getPatientId();
+        String formType = hf.getFormType();
+        MessageBean<?> messageBean = deleteFile(path);
+        if(messageBean.getCode() != MessageCodeEnum.OK.getCode())
+            return messageBean;
+        return saveNewFile(file, patientId, formType);
+    }
+
+    @RequestMapping("/getImages")
+    public MessageBean<?> getImages(@RequestParam int patientId, @RequestParam String formType){
+        HospitalFile[] files = fileService.selectFileByPatientId(patientId, formType);
+        JSONObject json = new JSONObject();
+        List<String> paths = new ArrayList<>();
+        for(HospitalFile file : files){
+            if(FileUploadUtil.isImage(file.getPath())){
+                paths.add(file.getPath());
+            }
+        }
+        json.put("path", paths);
+        return new MessageBean<>(MessageCodeEnum.OK, json, "返回成功");
+    }
+
+    @RequestMapping("/getVideos")
+    public MessageBean<?> getVideos(@RequestParam int patientId, @RequestParam String formType){
+        HospitalFile[] files = fileService.selectFileByPatientId(patientId, formType);
+        JSONObject json = new JSONObject();
+        List<String> paths = new ArrayList<>();
+        for(HospitalFile file : files){
+            if(FileUploadUtil.isVideo(file.getPath())){
+                paths.add(file.getPath());
+            }
+        }
+        json.put("path", paths);
+        return new MessageBean<>(MessageCodeEnum.OK, json, "返回成功");
+    }
+
     @PostMapping("/transformType")
-    public MessageBean<?> changeFileType(@RequestPart MultipartFile file, @RequestParam String targetType){
+    public MessageBean<?> changeFileType(@RequestPart MultipartFile file, @RequestParam String targetType, @RequestParam int patientId, @RequestParam String formType){
         if(!FileUploadUtil.isImage(file)) return new MessageBean<>(MessageCodeEnum.NO, "不是图片文件");
         if(!targetType.equals("bmp") && !targetType.equals("jpg") && !targetType.equals("jpeg") && !targetType.equals("png"))
             return new MessageBean<>(MessageCodeEnum.NO, "无法转换为该格式");
-        MessageBean<?> messageBean = saveNewFile(file);
+        MessageBean<?> messageBean = saveNewFile(file, patientId, formType);
         if(!messageBean.getMsg().equals("上传成功")) return messageBean;
         JSONObject jsonObject = (JSONObject) messageBean.getData();
         String url = (String) jsonObject.get("path");

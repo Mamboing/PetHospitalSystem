@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 @Mapper
 @Repository
 public interface FileMapper {
-    @Insert("insert into tb_file(path, origin_name, time, size) values (#{path}, #{originName}, #{time}, #{size})")
+    @Insert("insert into tb_file(path, origin_name, time, size, patient_id, form_type) values (#{path}, #{originName}, #{time}, #{size}, #{patientId}, #{formType})")
     @SelectKey(statement = "select last_insert_id()", keyProperty = "fileId", keyColumn = "file_id", before = false, resultType = int.class)
     int uploadFile(HospitalFile file);
 
@@ -22,4 +22,7 @@ public interface FileMapper {
 
     @Update("update tb_file set path = #{newPath} where path = #{oldPath}")
     void updatePath(String oldPath, String newPath);
+
+    @Select("select * from tb_file where patient_id = #{patientId} and form_type = #{formType}")
+    HospitalFile[] selectFileByPatientId(int patientId, String formType);
 }

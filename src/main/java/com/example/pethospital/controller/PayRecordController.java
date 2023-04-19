@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/payRecord")
 @Slf4j
 public class PayRecordController {

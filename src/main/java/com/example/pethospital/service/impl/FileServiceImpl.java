@@ -16,12 +16,14 @@ public class FileServiceImpl implements FileService {
     FileMapper fileMapper;
 
     @Override
-    public int saveFile(String path, String originName, Timestamp time, int size) {
+    public int saveFile(String path, String originName, Timestamp time, int size, int patientId, String formType) {
         HospitalFile hf = new HospitalFile();
         hf.setPath(path);
         hf.setOriginName(originName);
         hf.setTime(time);
         hf.setSize(size);
+        hf.setPatientId(patientId);
+        hf.setFormType(formType);
         return fileMapper.uploadFile(hf);
     }
 
@@ -38,5 +40,10 @@ public class FileServiceImpl implements FileService {
     @Override
     public void changeFilePath(String oldPath, String newPath) {
         fileMapper.updatePath(oldPath, newPath);
+    }
+
+    @Override
+    public HospitalFile[] selectFileByPatientId(int patientId, String formType) {
+        return fileMapper.selectFileByPatientId(patientId, formType);
     }
 }
