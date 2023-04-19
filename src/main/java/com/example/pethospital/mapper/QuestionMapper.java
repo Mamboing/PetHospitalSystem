@@ -21,8 +21,8 @@ public interface QuestionMapper {
     @Delete("DELETE FROM tb_question WHERE question_id = #{questionId}")
     void deleteQuestionById(int id);
 
-    @Select("SELECT * FROM tb_question WHERE category = #{category} ORDER BY RAND() LIMIT 1")
-    Question selectRandomQuestionByCategory(String category);
+    @Select("SELECT * FROM tb_question WHERE category = #{category} ORDER BY RAND() LIMIT #{count}")
+    List<Question> selectRandomQuestionByCategory(String category, int count);
 
     @Select("SELECT * FROM tb_question WHERE content LIKE CONCAT('%',#{content},'%')")
     List<Question> selectByContent(String content);

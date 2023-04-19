@@ -10,14 +10,16 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 @Slf4j
 @Service
 public class QuestionServiceImpl implements QuestionService {
     @Resource
     private QuestionMapper  questionMapper;
+
+    private static final int TOTAL_QUESTIONS = 20;
 
     @Override
     public void addQuestion(Question question) {
@@ -59,22 +61,21 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public List<Question> generatePaper(List<String> categories) {
+        int base = 20 / categories.size();  // 每个病种分配的基本的题目数量
+        int remainder = 20 % categories.size();  // 剩余的未分配的题目数量
+
         // 每个种类至少一道题
-        List<Question> questions = new ArrayList<>(categories.size());
-        for (String category : categories) {
-            Question question = questionMapper.selectRandomQuestionByCategory(category);
-            if (question != null) {
-                questions.add(question);
-            }
+        List<Question> questions = new ArrayList<>(TOTAL_QUESTIONS);
+        List<Integer> questionCount = new ArrayList<>(Collections.nCopies(categories.size(), base));
+
+        for (int i = 0; i < remainder; i++) {
+            questionCount.set(i, base + 1);
         }
-        // 随机选择其他题目
-        Random random = new Random();
-        while (questions.size() < 20) {
-            String category = categories.get(random.nextInt(categories.size()));
-            Question question = questionMapper.selectRandomQuestionByCategory(category);
-            if (question != null && !questions.contains(question)) {
-                questions.add(question);
-            }
+
+        // 随机选择题目
+        for(int j = 0; j < categories.size(); j++) {
+            List<Question> questionResult = questionMapper.selectRandomQuestionByCategory(categories.get(j), questionCount.get(j));
+            questions.addAll(questionResult);
         }
 
         return questions;
