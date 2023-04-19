@@ -119,6 +119,10 @@ public class FileUploadUtil {
      */
     public static String getExtension(MultipartFile file) {
         String fileName = file.getOriginalFilename();
+        return getExtension(fileName);
+    }
+
+    public static String getExtension(String fileName) {
         String extension = null;
         if (fileName == null) {
             return null;
@@ -161,6 +165,26 @@ public class FileUploadUtil {
 
     public static boolean isVideo(MultipartFile file){
         String extension = getExtension(file);
+        if(extension == null) return false;
+        switch (extension){
+            case "asx": case "asf": case "mpg": case "wmv": case "3gp":
+            case "mp4": case "mov": case "avi": case "flv": case "rmvb":
+                return true;
+        }
+        return false;
+    }
+    public static boolean isImage(String path){
+        String extension = getExtension(path);
+        if(extension == null) return false;
+        switch (extension){
+            case "bmp": case "jpg": case "jpeg": case "png": case "gif":
+                return true;
+        }
+        return false;
+    }
+
+    public static boolean isVideo(String path){
+        String extension = getExtension(path);
         if(extension == null) return false;
         switch (extension){
             case "asx": case "asf": case "mpg": case "wmv": case "3gp":
