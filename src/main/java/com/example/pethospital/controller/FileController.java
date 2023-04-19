@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/file")
 @Slf4j
 public class FileController {
