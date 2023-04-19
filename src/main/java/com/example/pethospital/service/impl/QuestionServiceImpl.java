@@ -64,10 +64,11 @@ public class QuestionServiceImpl implements QuestionService {
         int base = 20 / categories.size();  // 每个病种分配的基本的题目数量
         int remainder = 20 % categories.size();  // 剩余的未分配的题目数量
 
-        // 每个种类至少一道题
+        // 每个种类题目均匀分配
         List<Question> questions = new ArrayList<>(TOTAL_QUESTIONS);
         List<Integer> questionCount = new ArrayList<>(Collections.nCopies(categories.size(), base));
 
+        // 将剩余未分配的题目按顺序分配给每个病种
         for (int i = 0; i < remainder; i++) {
             questionCount.set(i, base + 1);
         }
