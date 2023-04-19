@@ -7,7 +7,7 @@ import java.util.List;
 
 @Mapper
 public interface HospitalizationMapper {
-    @Insert("INSERT INTO tb_hospitalization(patient_name, room_number,  price) VALUES(#{patientName}, #{roomNumber},  #{hospitalizationPrice})")
+    @Insert("INSERT INTO tb_hospitalization(patient_name, room_number, price) VALUES(#{patientName}, #{roomNumber},  #{price})")
     @SelectKey(statement = "SELECT LAST_INSERT_ID()", keyProperty = "hospitalizationId", before = false, resultType = int.class)
     void addHospitalization(Hospitalization hospitalization);
 
@@ -20,7 +20,7 @@ public interface HospitalizationMapper {
     @Delete("DELETE FROM tb_hospitalization WHERE hospitalization_id = #{hospitalizationId}")
     void deleteHospitalizationById(int hospitalizationId);
 
-    @Update("UPDATE tb_hospitalization SET patient_name = #{patientName}, room_number = #{roomNumber}, price = #{hospitalizationPrice} WHERE hospitalization_id = #{hospitalizationId}")
+    @Update("UPDATE tb_hospitalization SET patient_name = #{patientName}, room_number = #{roomNumber}, price = #{price} WHERE hospitalization_id = #{hospitalizationId}")
     void updateById(Hospitalization hospitalization);
 
     @Select("SELECT * FROM tb_hospitalization WHERE patient_name LIKE CONCAT('%',#{patientName},'%')")

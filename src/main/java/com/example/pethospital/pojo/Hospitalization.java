@@ -14,5 +14,5 @@ public class Hospitalization {
     private int hospitalizationId;      // 住院ID
     private String patientName;         // 住院人姓名
     private int roomNumber;             // 住院房间号
-    private double hospitalizationPrice;               // 住院价格
+    private double price;               // 住院价格
 }
