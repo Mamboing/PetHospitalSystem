@@ -13,7 +13,9 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Patient {
-    private int patientId;  // 病例ID
+    @NotNull
+    private Integer patientId;  // 病例ID
+    @NotNull
     private String name;    // 病例名称
     private String owner;   // 主人
     private String address;    // 地址

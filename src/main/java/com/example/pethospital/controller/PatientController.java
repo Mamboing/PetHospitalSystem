@@ -32,7 +32,7 @@ public class PatientController {
 
     // 添加病例接口
     @PostMapping("/patient/add")
-    public MessageBean<?> addPatient(@RequestBody Patient patient) {
+    public MessageBean<?> addPatient(@Valid @RequestBody Patient patient) {
         patientService.addPatient(patient);
         int data = patient.getPatientId();
         return new MessageBean<>(MessageCodeEnum.OK, data, "添加病例成功");
@@ -40,7 +40,7 @@ public class PatientController {
 
     // 根据病例ID删除病例接口
     @DeleteMapping("/patient/delete/{patientId}")
-    public MessageBean<?> deletePatientById(@PathVariable int patientId) {
+    public MessageBean<?> deletePatientById(@Valid @PathVariable int patientId) {
         // 获取病例有关文件路径列表
         List<String> filePathList = fileService.selectPathById(patientId);
 
@@ -81,21 +81,21 @@ public class PatientController {
 
     // 根据病例名称模糊查询接口
     @GetMapping("/patient/searchByName")
-    public MessageBean<?> getPatientsByName(@RequestParam String name) {
+    public MessageBean<?> getPatientsByName(@Valid @RequestParam String name) {
         List<Patient> data = patientService.getPatientsByName(name);
         return new MessageBean<>(MessageCodeEnum.OK, data);
     }
 
     // 根据病例对应病种查询接口
     @GetMapping("/patient/searchByCategory")
-    public MessageBean<?> getPatientsByCategory(@RequestParam String category) {
+    public MessageBean<?> getPatientsByCategory(@Valid @RequestParam String category) {
         List<Patient> data = patientService.getPatientsByCategory(category);
         return new MessageBean<>(MessageCodeEnum.OK, data);
     }
 
     // 根据病例ID查询接口
     @GetMapping("/patient/searchById")
-    public MessageBean<?> getPatientById(@RequestParam int patientId) {
+    public MessageBean<?> getPatientById(@Valid @RequestParam int patientId) {
         Patient data = patientService.selectById(patientId);
         return new MessageBean<>(MessageCodeEnum.OK, data);
     }
