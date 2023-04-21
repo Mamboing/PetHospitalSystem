@@ -6,7 +6,7 @@ public enum MessageCodeEnum {
     /**
      * 常规错误码
      */
-    INVALID_PARAMS(9001, "参数有误"),
+    INVALID_PARAMS(9001, "参数有误或参数为空"),
     NOT_SUPPORT(9002, "请求方式错误"),
     FREQUENTLY_REQUEST(9003, "操作频繁"),
     REQUEST_EXPIRED(9004, "请求过期"),

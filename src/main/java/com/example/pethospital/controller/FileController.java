@@ -30,6 +30,9 @@ public class FileController {
 
     @PostMapping("/upload")
     public MessageBean<?> saveNewFile(@RequestPart(value = "file", required = false) MultipartFile file, @RequestParam int patientId, @RequestParam String formType){
+        if(file == null || patientId <= 0 || formType == null){
+            return new MessageBean<>(MessageCodeEnum.INVALID_PARAMS);
+        }
         JSONObject data = new JSONObject();
         try{
             FileUploadUtil.assertAllowed(file);
@@ -88,6 +91,9 @@ public class FileController {
 
     @PostMapping("/delete")
     public MessageBean<?> deleteFile(@RequestParam String path){
+        if(path == null){
+            return new MessageBean<>(MessageCodeEnum.INVALID_PARAMS);
+        }
         JSONObject json = new JSONObject();
         HospitalFile hf = fileService.selectFileByPath(path);
         File file = new File(path);
@@ -107,6 +113,9 @@ public class FileController {
 
     @PostMapping("/update")
     public MessageBean<?> updateFile(@RequestPart MultipartFile file, @RequestParam String path){
+        if(path == null || file == null){
+            return new MessageBean<>(MessageCodeEnum.INVALID_PARAMS);
+        }
         HospitalFile hf = fileService.selectFileByPath(path);
         if(FileUploadUtil.isImage(file)){
             if(!FileUploadUtil.isImage(hf.getPath())){
@@ -131,6 +140,9 @@ public class FileController {
 
     @RequestMapping("/getImages")
     public MessageBean<?> getImages(@RequestParam int patientId, @RequestParam String formType){
+        if(patientId <= 0 || formType == null){
+            return new MessageBean<>(MessageCodeEnum.INVALID_PARAMS);
+        }
         HospitalFile[] files = fileService.selectFileByPatientId(patientId, formType);
         JSONObject json = new JSONObject();
         List<String> paths = new ArrayList<>();
@@ -145,6 +157,9 @@ public class FileController {
 
     @RequestMapping("/getVideos")
     public MessageBean<?> getVideos(@RequestParam int patientId, @RequestParam String formType){
+        if(patientId <= 0 || formType == null){
+            return new MessageBean<>(MessageCodeEnum.INVALID_PARAMS);
+        }
         HospitalFile[] files = fileService.selectFileByPatientId(patientId, formType);
         JSONObject json = new JSONObject();
         List<String> paths = new ArrayList<>();
@@ -159,6 +174,9 @@ public class FileController {
 
     @PostMapping("/transformType")
     public MessageBean<?> changeFileType(@RequestPart MultipartFile file, @RequestParam String targetType, @RequestParam int patientId, @RequestParam String formType){
+        if(file == null || targetType == null || patientId <= 0 || formType == null){
+            return new MessageBean<>(MessageCodeEnum.INVALID_PARAMS);
+        }
         if(!FileUploadUtil.isImage(file)) return new MessageBean<>(MessageCodeEnum.NO, "不是图片文件");
         if(!targetType.equals("bmp") && !targetType.equals("jpg") && !targetType.equals("jpeg") && !targetType.equals("png"))
             return new MessageBean<>(MessageCodeEnum.NO, "无法转换为该格式");

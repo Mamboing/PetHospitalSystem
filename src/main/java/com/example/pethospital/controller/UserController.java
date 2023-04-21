@@ -31,6 +31,9 @@ public class UserController {
 
     @RequestMapping("/getByPage")
     public List<User> getUserByPage(int page, int size){
+        if(page < 0 || size <= 0){
+            return new ArrayList<>();
+        }
         return userService.getUserByPage(page, size);
     }
 
@@ -41,6 +44,9 @@ public class UserController {
 
     @PostMapping("/login")
     public MessageBean<?> login(@RequestParam("userName") String userName, @RequestParam("password") String password){
+        if(userName == null || password == null){
+            return new MessageBean<>(MessageCodeEnum.INVALID_PARAMS);
+        }
         JSONObject data = new JSONObject();
         User user = userService.login(userName, password);
         if(user != null){
@@ -58,7 +64,9 @@ public class UserController {
 
     @PostMapping("/register")
     public MessageBean<?> register(@RequestParam String userName, @RequestParam String password, @RequestParam String gender, @RequestParam int age){
-        JSONObject json = new JSONObject();
+        if(userName == null || password == null || gender == null || age <= 0){
+            return new MessageBean<>(MessageCodeEnum.INVALID_PARAMS);
+        }
         int ok = userService.register(userName, password, gender, age);
         if(ok == 0) {
             String msg = "username exists";
@@ -72,7 +80,9 @@ public class UserController {
 
     @PostMapping("/changePassword")
     public MessageBean<?> modifyPassword(@RequestParam String originPassword, @RequestParam String newPassword){
-        JSONObject json = new JSONObject();
+        if(originPassword == null || newPassword == null){
+            return new MessageBean<>(MessageCodeEnum.INVALID_PARAMS);
+        }
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userService.login(userName, originPassword);
         if(user != null){
@@ -88,6 +98,12 @@ public class UserController {
 
     @PostMapping("/updateInfo")
     public MessageBean<?> updateInformation(@RequestParam int id, @RequestParam String userName, @RequestParam int authority, @RequestParam String gender, @RequestParam int age){
+        if(id <= 0 || userName == null || gender == null || age <= 0){
+            return new MessageBean<>(MessageCodeEnum.INVALID_PARAMS);
+        }
+        if(authority != 1 && authority != 3 && authority != 5){
+            return new MessageBean<>(MessageCodeEnum.INVALID_PARAMS, "权限设置有误");
+        }
         userService.updateUserInformation(id, userName, authority, gender, age);
         User user = userService.getUserById(id);
         String msg = "修改成功！";

@@ -4,15 +4,21 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class PayRecord {
-    private int recordId;
+    @NotNull
+    private Integer recordId;
+    @NotNull
     private Timestamp time;
+    @NotNull
     private String personName;
+    @NotNull
     private String information;
-    private double totalCost;
+    @NotNull
+    private Double totalCost;
 }
