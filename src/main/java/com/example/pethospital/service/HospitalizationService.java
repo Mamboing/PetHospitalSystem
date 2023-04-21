@@ -11,11 +11,11 @@ public interface HospitalizationService {
 
     int selectHospitalizationCount();
 
-    void deleteHospitalizationById(Integer id);
+    void deleteHospitalizationById(int id);
 
     void updateHospitalization(Hospitalization hospitalization);
 
     List<Hospitalization> getHospitalizationsByName(String patientName);
 
-    Hospitalization selectById(Integer hospitalizationId);
+    Hospitalization selectById(int hospitalizationId);
 }

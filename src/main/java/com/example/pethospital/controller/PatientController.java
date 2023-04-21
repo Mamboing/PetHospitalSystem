@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.io.File;
 import java.util.List;
 
@@ -73,7 +74,7 @@ public class PatientController {
 
     // 更新病例接口
     @PutMapping("/patient/update")
-    public MessageBean<?> updatePatient(@RequestBody Patient patient) {
+    public MessageBean<?> updatePatient(@Valid @RequestBody Patient patient) {
         patientService.updatePatient(patient);
         return new MessageBean<>(MessageCodeEnum.OK, "更新病例成功");
     }

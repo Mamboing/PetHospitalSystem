@@ -34,7 +34,7 @@ public class HospitalizationController {
 
     // 根据住院ID删除住院记录接口
     @DeleteMapping("/hospitalization/delete/{hospitalizationId}")
-    public MessageBean<?> deleteHospitalizationById(@PathVariable Integer hospitalizationId) {
+    public MessageBean<?> deleteHospitalizationById(@PathVariable int hospitalizationId) {
         hospitalizationService.deleteHospitalizationById(hospitalizationId);
         return new MessageBean<>(MessageCodeEnum.OK, "删除住院记录成功");
     }
@@ -55,7 +55,7 @@ public class HospitalizationController {
 
     // 根据住院ID查询接口
     @GetMapping("hospitalization/searchById")
-    public MessageBean<?> getHospitalizationById(@RequestParam Integer hospitalizationId) {
+    public MessageBean<?> getHospitalizationById(@RequestParam int hospitalizationId) {
         Hospitalization data = hospitalizationService.selectById(hospitalizationId);
         return new MessageBean<>(MessageCodeEnum.OK, data);
     }
