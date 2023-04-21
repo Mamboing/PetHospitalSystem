@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Date;
@@ -25,7 +26,7 @@ public class PayRecordController {
     PayRecordService payRecordService;
 
     @PostMapping("/addRecord")
-    public MessageBean<?> addNewRecord(@RequestBody RecordDTO recordDTO){
+    public MessageBean<?> addNewRecord(@Valid @RequestBody RecordDTO recordDTO){
         PayRecord payRecord = new PayRecord();
         payRecord.setPersonName(recordDTO.getPersonName());
         payRecord.setTotalCost(recordDTO.getTotalCost());
@@ -55,13 +56,25 @@ public class PayRecordController {
 
     @RequestMapping("/get/{recordId}")
     public MessageBean<?> getRecordById(@PathVariable int recordId){
+        if(recordId <= 0){
+            return new MessageBean<>(MessageCodeEnum.INVALID_PARAMS);
+        }
         PayRecord payRecord = payRecordService.selectById(recordId);
         return new MessageBean<>(MessageCodeEnum.OK, payRecord, "success");
     }
 
     @RequestMapping("/getByPage")
     public MessageBean<?> getAllRecord(@RequestParam int page, @RequestParam int size){
+        if(page < 0 || size <= 0){
+            return new MessageBean<>(MessageCodeEnum.INVALID_PARAMS);
+        }
         List<PayRecord> list = payRecordService.selectByPage(page, size);
+        return new MessageBean<>(MessageCodeEnum.OK, list, "success");
+    }
+
+    @RequestMapping("/getAll")
+    public MessageBean<?> getAll(){
+        List<PayRecord> list = payRecordService.selectAll();
         return new MessageBean<>(MessageCodeEnum.OK, list, "success");
     }
 }
