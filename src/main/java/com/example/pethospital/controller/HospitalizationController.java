@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -33,14 +34,14 @@ public class HospitalizationController {
 
     // 根据住院ID删除住院记录接口
     @DeleteMapping("/hospitalization/delete/{hospitalizationId}")
-    public MessageBean<?> deleteHospitalizationById(@PathVariable int hospitalizationId) {
+    public MessageBean<?> deleteHospitalizationById(@PathVariable Integer hospitalizationId) {
         hospitalizationService.deleteHospitalizationById(hospitalizationId);
         return new MessageBean<>(MessageCodeEnum.OK, "删除住院记录成功");
     }
 
     // 更新住院记录接口
     @PutMapping("/hospitalization/update")
-    public MessageBean<?> updateHospitalization(@RequestBody Hospitalization hospitalization) {
+    public MessageBean<?> updateHospitalization(@Valid @RequestBody Hospitalization hospitalization) {
         hospitalizationService.updateHospitalization(hospitalization);
         return new MessageBean<>(MessageCodeEnum.OK, "更新住院记录成功");
     }
@@ -54,7 +55,7 @@ public class HospitalizationController {
 
     // 根据住院ID查询接口
     @GetMapping("hospitalization/searchById")
-    public MessageBean<?> getHospitalizationById(@RequestParam int hospitalizationId) {
+    public MessageBean<?> getHospitalizationById(@RequestParam Integer hospitalizationId) {
         Hospitalization data = hospitalizationService.selectById(hospitalizationId);
         return new MessageBean<>(MessageCodeEnum.OK, data);
     }

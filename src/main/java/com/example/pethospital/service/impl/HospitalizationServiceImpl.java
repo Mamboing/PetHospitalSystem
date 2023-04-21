@@ -31,7 +31,7 @@ public class HospitalizationServiceImpl implements HospitalizationService {
     }
 
     @Override
-    public void deleteHospitalizationById(int id) {
+    public void deleteHospitalizationById(Integer id) {
         hospitalizationMapper.deleteHospitalizationById(id);
     }
 
@@ -46,7 +46,7 @@ public class HospitalizationServiceImpl implements HospitalizationService {
     }
 
     @Override
-    public Hospitalization selectById(int hospitalizationId) {
+    public Hospitalization selectById(Integer hospitalizationId) {
         return hospitalizationMapper.selectById(hospitalizationId);
     }
 }
