@@ -27,6 +27,11 @@ public class PayRecordServiceImpl implements PayRecordService {
     }
 
     @Override
+    public List<PayRecord> selectAll() {
+        return payRecordMapper.selectAllRecord();
+    }
+
+    @Override
     public List<PayRecord> selectByName(String personName) {
         return payRecordMapper.selectRecordByName(personName);
     }

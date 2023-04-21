@@ -19,6 +19,9 @@ public interface PayRecordMapper {
     @Select("select * from tb_pay_record limit #{page},#{size}")
     List<PayRecord> selectAllRecordByPage(int page, int size);
 
+    @Select("select * from tb_pay_record")
+    List<PayRecord> selectAllRecord();
+
     @Select("select * from tb_pay_record where person_name = #{personName}")
     List<PayRecord> selectRecordByName(String personName);
 

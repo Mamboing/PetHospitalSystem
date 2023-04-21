@@ -64,4 +64,10 @@ public class PayRecordController {
         List<PayRecord> list = payRecordService.selectByPage(page, size);
         return new MessageBean<>(MessageCodeEnum.OK, list, "success");
     }
+
+    @RequestMapping("/getAll")
+    public MessageBean<?> getAll(){
+        List<PayRecord> list = payRecordService.selectAll();
+        return new MessageBean<>(MessageCodeEnum.OK, list, "success");
+    }
 }
