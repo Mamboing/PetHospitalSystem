@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -40,7 +41,7 @@ public class HospitalizationController {
 
     // 更新住院记录接口
     @PutMapping("/hospitalization/update")
-    public MessageBean<?> updateHospitalization(@RequestBody Hospitalization hospitalization) {
+    public MessageBean<?> updateHospitalization(@Valid @RequestBody Hospitalization hospitalization) {
         hospitalizationService.updateHospitalization(hospitalization);
         return new MessageBean<>(MessageCodeEnum.OK, "更新住院记录成功");
     }

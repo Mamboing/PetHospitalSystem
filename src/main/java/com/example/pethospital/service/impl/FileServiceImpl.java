@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -45,5 +46,10 @@ public class FileServiceImpl implements FileService {
     @Override
     public HospitalFile[] selectFileByPatientId(int patientId, String formType) {
         return fileMapper.selectFileByPatientId(patientId, formType);
+    }
+
+    @Override
+    public List<String> selectPathById(int patientId) {
+        return fileMapper.selectPathById(patientId);
     }
 }

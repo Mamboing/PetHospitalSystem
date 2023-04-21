@@ -4,6 +4,8 @@ import com.example.pethospital.pojo.HospitalFile;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Mapper
 @Repository
 public interface FileMapper {
@@ -25,4 +27,7 @@ public interface FileMapper {
 
     @Select("select * from tb_file where patient_id = #{patientId} and form_type = #{formType}")
     HospitalFile[] selectFileByPatientId(int patientId, String formType);
+
+    @Select("SELECT path from tb_file where patient_id = #{patientId}")
+    List<String> selectPathById(int patientId);
 }

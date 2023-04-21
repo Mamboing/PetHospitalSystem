@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * 病例
  */
@@ -11,7 +13,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Patient {
-    private int patientId;  // 病例ID
+    @NotNull
+    private Integer patientId;  // 病例ID
+    @NotNull
     private String name;    // 病例名称
     private String owner;   // 主人
     private String address;    // 地址
