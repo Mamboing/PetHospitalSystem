@@ -19,8 +19,8 @@ public interface UserMapper {
     @Select("select * from tb_user where user_id = #{userId}")
     User selectUserById(int id);
 
-    @Select("select count(*) from tb_user")
-    int selectUserCount();
+    @Select("select * from tb_user where user_name = #{userName}")
+    User selectUserByName(String userName);
 
     @Delete("delete from tb_user where user_id = #{userId}")
     void deleteUserById(int id);
