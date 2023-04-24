@@ -10,6 +10,7 @@ import com.example.pethospital.util.JWTUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,8 +39,16 @@ public class UserController {
     }
 
     @RequestMapping("/me")
-    public Object getCurrentUser(){
-        return SecurityContextHolder.getContext().getAuthentication();
+    public MessageBean<?> getCurrentUser(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.getUserByName(authentication.getName());
+        if(user != null){
+            String msg = "Success";
+            return new MessageBean<>(MessageCodeEnum.OK, user, msg);
+        }
+        else{
+            return new MessageBean<>(MessageCodeEnum.NO, "用户不存在");
+        }
     }
 
     @PostMapping("/login")
@@ -108,5 +117,14 @@ public class UserController {
         User user = userService.getUserById(id);
         String msg = "修改成功！";
         return new MessageBean<>(MessageCodeEnum.OK, user, msg);
+    }
+
+    @PostMapping("/delete/{id}")
+    public MessageBean<?> deleteUser(@PathVariable int id){
+        if(id <= 0){
+            return new MessageBean<>(MessageCodeEnum.INVALID_PARAMS);
+        }
+        userService.deleteUser(id);
+        return new MessageBean<>(MessageCodeEnum.OK, "删除成功");
     }
 }

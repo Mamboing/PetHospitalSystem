@@ -10,6 +10,8 @@ public interface UserService {
     List<User> getAllUser();
     List<User> getUserByPage(int page, int size);
     User getUserById(int id);
+    User getUserByName(String userName);
     void updatePassword(String userName, String password);
     void updateUserInformation(int id, String userName, int authority, String gender, int age);
+    void deleteUser(int id);
 }
