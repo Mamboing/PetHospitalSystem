@@ -21,6 +21,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/user/login").permitAll()
                 .antMatchers("/user/register").permitAll()
+                .antMatchers("/phFiles/**").permitAll()
                 .anyRequest().authenticated().and()
                 .addFilter(new JwtRequestFilter(authenticationManager()));
     }
