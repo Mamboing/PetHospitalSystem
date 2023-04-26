@@ -34,7 +34,7 @@ public class FileController {
             return new MessageBean<>(MessageCodeEnum.INVALID_PARAMS);
         }
         JSONObject data = new JSONObject();
-        String errMsg = "输入错误";
+        String errMsg = "上传发生错误";
         try{
             FileUploadUtil.assertAllowed(file);
             String filePath = System.getProperty("user.dir") + File.separator + "petHospitalFiles" + File.separator;
@@ -55,7 +55,7 @@ public class FileController {
                 newFile.getParentFile().mkdirs();
             }
             if(newFile.exists()){
-                String msg = "file already exists";
+                String msg = "文件已经存在";
                 return new MessageBean<>(MessageCodeEnum.NO, msg);
             }
             Date date = new Date();
@@ -100,16 +100,16 @@ public class FileController {
         HospitalFile hf = fileService.selectFileByPath(path);
         File file = new File(path);
         if(hf == null || !file.exists() || !file.isFile()){
-            String msg = "file not exists";
+            String msg = "文件不存在";
             return new MessageBean<>(MessageCodeEnum.NO, msg);
         }
         boolean ok = file.delete();
         if(!ok){
-            String msg = "fail to delete file";
+            String msg = "删除失败";
             return new MessageBean<>(MessageCodeEnum.ERROR, msg);
         }
         fileService.deleteFile(path);
-        String msg = "delete success";
+        String msg = "删除成功";
         return new MessageBean<>(MessageCodeEnum.OK, msg);
     }
 
