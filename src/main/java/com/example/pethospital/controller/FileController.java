@@ -34,7 +34,7 @@ public class FileController {
             return new MessageBean<>(MessageCodeEnum.INVALID_PARAMS);
         }
         JSONObject data = new JSONObject();
-        String errMsg = "IOException";
+        String errMsg = "输入错误";
         try{
             FileUploadUtil.assertAllowed(file);
             String filePath = System.getProperty("user.dir") + File.separator + "petHospitalFiles" + File.separator;
