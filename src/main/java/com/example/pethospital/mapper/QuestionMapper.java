@@ -27,7 +27,7 @@ public interface QuestionMapper {
     @Select("SELECT * FROM tb_question WHERE content LIKE CONCAT('%',#{content},'%')")
     List<Question> selectByContent(String content);
 
-    @Select("SELECT * FROM tb_question WHERE category = #{category}")
+    @Select("SELECT * FROM tb_question WHERE category LIKE CONCAT('%',#{category},'%')")
     List<Question> selectByCategory(String category);
 
     @Update("UPDATE tb_question SET category = #{category}, content = #{content}, option_a = #{optionA}, option_b = #{optionB}, option_c = #{optionC}, option_d = #{optionD}, answer = #{answer}, score = #{score} WHERE question_id = #{questionId}")
