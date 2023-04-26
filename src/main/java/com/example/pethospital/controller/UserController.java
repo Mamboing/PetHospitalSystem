@@ -43,7 +43,7 @@ public class UserController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.getUserByName(authentication.getName());
         if(user != null){
-            String msg = "Success";
+            String msg = "成功";
             return new MessageBean<>(MessageCodeEnum.OK, user, msg);
         }
         else{
@@ -60,7 +60,7 @@ public class UserController {
         User user = userService.login(userName, password);
         if(user != null){
             String token = JWTUtil.generateToken(user);
-            String msg = "Success";
+            String msg = "登录成功";
             data.put("Authorization", token);
             data.put("AuthorityValue", user.getAuthority());
             return new MessageBean<>(MessageCodeEnum.OK, data, msg);
@@ -78,7 +78,7 @@ public class UserController {
         }
         int ok = userService.register(userName, password, gender, age);
         if(ok == 0) {
-            String msg = "username exists";
+            String msg = "用户名已存在";
             return new MessageBean<>(MessageCodeEnum.NO, msg);
         }
         else{
@@ -100,7 +100,7 @@ public class UserController {
             return new MessageBean<>(MessageCodeEnum.OK, msg);
         }
         else{
-            String msg = "wrong password!";
+            String msg = "密码错误!";
             return new MessageBean<>(MessageCodeEnum.PASSWORD_WRONG, msg);
         }
     }

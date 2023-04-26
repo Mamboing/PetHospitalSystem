@@ -60,7 +60,7 @@ public class PayRecordController {
             return new MessageBean<>(MessageCodeEnum.INVALID_PARAMS);
         }
         PayRecord payRecord = payRecordService.selectById(recordId);
-        return new MessageBean<>(MessageCodeEnum.OK, payRecord, "success");
+        return new MessageBean<>(MessageCodeEnum.OK, payRecord, "成功");
     }
 
     @RequestMapping("/getByPage")
@@ -69,12 +69,12 @@ public class PayRecordController {
             return new MessageBean<>(MessageCodeEnum.INVALID_PARAMS);
         }
         List<PayRecord> list = payRecordService.selectByPage(page, size);
-        return new MessageBean<>(MessageCodeEnum.OK, list, "success");
+        return new MessageBean<>(MessageCodeEnum.OK, list, "成功");
     }
 
     @RequestMapping("/getAll")
     public MessageBean<?> getAll(){
         List<PayRecord> list = payRecordService.selectAll();
-        return new MessageBean<>(MessageCodeEnum.OK, list, "success");
+        return new MessageBean<>(MessageCodeEnum.OK, list, "成功");
     }
 }
