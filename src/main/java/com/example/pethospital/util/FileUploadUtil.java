@@ -102,8 +102,9 @@ public class FileUploadUtil {
         }
 
         long size = file.getSize();
-        if (isVideo(file) && size>VIDEO_MAX_SIZE) {
-            throw new ErrorCodeException("视频过大");
+        if (isVideo(file)) {
+            if(size > VIDEO_MAX_SIZE)
+                throw new ErrorCodeException("视频过大");
         }
         else if (size > DEFAULT_MAX_SIZE) {
             throw new ErrorCodeException("文件过大");

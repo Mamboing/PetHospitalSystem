@@ -34,6 +34,7 @@ public class FileController {
             return new MessageBean<>(MessageCodeEnum.INVALID_PARAMS);
         }
         JSONObject data = new JSONObject();
+        String errMsg = "输入错误";
         try{
             FileUploadUtil.assertAllowed(file);
             String filePath = System.getProperty("user.dir") + File.separator + "petHospitalFiles" + File.separator;
@@ -75,8 +76,9 @@ public class FileController {
         }
         catch (Exception e){
             e.printStackTrace();
+            errMsg = e.getMessage();
         }
-        return new MessageBean<>(MessageCodeEnum.ERROR, "IOException");
+        return new MessageBean<>(MessageCodeEnum.ERROR, errMsg);
     }
 
     @PostMapping("/uploadMulti")
