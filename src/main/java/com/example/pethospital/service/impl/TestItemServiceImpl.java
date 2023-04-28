@@ -3,12 +3,14 @@ package com.example.pethospital.service.impl;
 import com.example.pethospital.mapper.TestItemMapper;
 import com.example.pethospital.pojo.TestItem;
 import com.example.pethospital.service.TestItemService;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
 
 @Service
+@CacheConfig(cacheNames = "test-item")
 public class TestItemServiceImpl implements TestItemService {
     @Resource
     private TestItemMapper testItemMapper;

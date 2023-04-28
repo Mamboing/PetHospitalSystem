@@ -4,6 +4,7 @@ import com.example.pethospital.mapper.ArchiveMapper;
 import com.example.pethospital.pojo.Archive;
 import com.example.pethospital.service.ArchiveService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @Slf4j
 @Service
+@CacheConfig(cacheNames = "archive")
 public class ArchiveServiceImpl implements ArchiveService {
 
     @Resource

@@ -5,6 +5,7 @@ import com.example.pethospital.pojo.HospitalFile;
 import com.example.pethospital.service.FileService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Slf4j
 @Service
+@CacheConfig(cacheNames = "file")
 public class FileServiceImpl implements FileService {
     @Autowired
     FileMapper fileMapper;

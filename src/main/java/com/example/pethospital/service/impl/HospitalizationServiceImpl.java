@@ -4,6 +4,7 @@ import com.example.pethospital.mapper.HospitalizationMapper;
 import com.example.pethospital.pojo.Hospitalization;
 import com.example.pethospital.service.HospitalizationService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @Service
 @Slf4j
+@CacheConfig(cacheNames = "hospitalization")
 public class HospitalizationServiceImpl implements HospitalizationService {
     @Resource
     private HospitalizationMapper hospitalizationMapper;

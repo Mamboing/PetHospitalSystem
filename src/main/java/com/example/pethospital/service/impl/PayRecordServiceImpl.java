@@ -5,12 +5,14 @@ import com.example.pethospital.pojo.PayRecord;
 import com.example.pethospital.service.PayRecordService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Slf4j
 @Service
+@CacheConfig(cacheNames = "pay-record")
 public class PayRecordServiceImpl implements PayRecordService {
     @Autowired
     PayRecordMapper payRecordMapper;

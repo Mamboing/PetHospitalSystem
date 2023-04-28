@@ -6,6 +6,7 @@ import com.example.pethospital.pojo.Question;
 import com.example.pethospital.pojo.Score;
 import com.example.pethospital.service.QuestionService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @Slf4j
 @Service
+@CacheConfig(cacheNames = "question")
 public class QuestionServiceImpl implements QuestionService {
     @Resource
     private QuestionMapper  questionMapper;

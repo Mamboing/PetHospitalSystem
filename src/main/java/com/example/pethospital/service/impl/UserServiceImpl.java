@@ -6,12 +6,14 @@ import com.example.pethospital.service.UserService;
 import com.example.pethospital.util.MD5Util;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Slf4j
 @Service
+@CacheConfig(cacheNames = "user")
 public class UserServiceImpl implements UserService {
     @Autowired
     UserMapper userMapper;

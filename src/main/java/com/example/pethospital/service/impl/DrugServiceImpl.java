@@ -5,11 +5,13 @@ import com.example.pethospital.pojo.Drug;
 import com.example.pethospital.service.DrugService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@CacheConfig(cacheNames = "drug")
 public class DrugServiceImpl implements DrugService {
 
     @Autowired
